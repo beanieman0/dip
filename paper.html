@@ -6,355 +6,355 @@
     <title>Document</title>
 </head>
 <body>
-    <h1> Resize Image with Square Mask: </h1>
-<p>import cv2 
-<br>from google.colab import files
-<br>import matplotlib.pyplot as plt
-<br># Upload an image file using Google Colab's file upload feature
-<br>uploaded = files.upload()
-<br># Read the uploaded image
-<br>image_path = list(uploaded.keys())[0]
-<br>original_image = cv2.imread(image_path)
-<br># Resize image to 256x256
-<br>resized_image = cv2.resize(original_image, (256, 256))
-<br># Apply square mask
-<br>mask_size = 100
-<br>masked_image = resized_image[128 - mask_size//2: 128 + mask_size//2, 128 - mask_size//2: 128 +
-<br>mask_size//2]
-<br># Display the images
-<br>plt.figure(figsize=(10, 5))
-<br>plt.subplot(1, 2, 1), plt.imshow(resized_image[:,:,::-1]), plt.title('Resized Image')
-<br>plt.subplot(1, 2, 2), plt.imshow(masked_image[:,:,::-1]), plt.title('Masked Image')
-<br>plt.show() </p>
+    1. Resize Image with Square Mask:
+import cv2
+from google.colab import files
+import matplotlib.pyplot as plt
+# Upload an image file using Google Colab's file upload feature
+uploaded = files.upload()
+# Read the uploaded image
+image_path = list(uploaded.keys())[0]
+original_image = cv2.imread(image_path)
+# Resize image to 256x256
+resized_image = cv2.resize(original_image, (256, 256))
+# Apply square mask
+mask_size = 100
+masked_image = resized_image[128 - mask_size//2: 128 + mask_size//2, 128 - mask_size//2: 128 +
+mask_size//2]
+# Display the images
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1), plt.imshow(resized_image[:,:,::-1]), plt.title('Resized Image')
+plt.subplot(1, 2, 2), plt.imshow(masked_image[:,:,::-1]), plt.title('Masked Image')
+plt.show()
 
 
-<h1>2. Contrast Stretching, Histogram, and Histogram Equalization: </h1>
-<p># Assuming 'resized_image' from the previous code block 
-    <br># Convert the image to grayscale
-    <br>gray_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
-    <br># Apply contrast stretching
-    <br>min_val, max_val, _, _ = cv2.minMaxLoc(gray_image)
-    <br>contrast_stretched = cv2.convertScaleAbs(gray_image, alpha=255.0/(max_val-min_val), beta=-
-    <br>min_val*255.0/(max_val-min_val))
-    <br># Compute and plot histograms
-    <br>plt.figure(figsize=(15, 5))
-    <br>plt.subplot(1, 3, 1), plt.imshow(contrast_stretched, cmap='gray'), plt.title('Contrast Stretched Image')
-    <br>plt.subplot(1, 3, 2), plt.hist(gray_image.ravel(), bins=256, color='black', alpha=0.7, rwidth=0.8),
-    <br>plt.title('Histogram')
-    <br>plt.subplot(1, 3, 3), plt.hist(contrast_stretched.ravel(), bins=256, color='black', alpha=0.7, rwidth=0.8),
-    <br>plt.title('Stretched Histogram')
-    <br>plt.show()
-</p>
-
-<h1>3. Geometric Transformation: </h1>
-<p># Assuming 'resized_image' from the first code block
-    <br># (a) Translation
-    <br>translation_matrix = np.float32([[1, 0, 50], [0, 1, 50]]) # Translate by (50, 50)
-    <br>translated_image = cv2.warpAffine(resized_image, translation_matrix, (256, 256))
-    <br># (b) Scaling
-    <br>scaling_matrix = np.float32([[0.5, 0, 0], [0, 0.5, 0]]) # Scale by 0.5
-    <br>scaled_image = cv2.warpAffine(resized_image, scaling_matrix, (256, 256))
-    <br># (c) Rotation
-    <br>rotation_matrix = cv2.getRotationMatrix2D((128, 128), 45, 1) # Rotate by 45 degrees
-    <br>rotated_image = cv2.warpAffine(resized_image, rotation_matrix, (256, 256))
-    <br># (d) Shrinking
-    <br>shrink_matrix = np.float32([[0.8, 0, 0], [0, 0.8, 0]]) # Shrink by 20%
-    <br>shrinked_image = cv2.warpAffine(resized_image, shrink_matrix, (256, 256))
-    <br># (e) Zooming
-    <br>zoom_matrix = np.float32([[1.2, 0, 0], [0, 1.2, 0]]) # Zoom by 20%
-    <br>zoomed_image = cv2.warpAffine(resized_image, zoom_matrix, (256, 256))
-    <br># Display the images
-    <br>plt.figure(figsize=(15, 5))
-    <br>plt.subplot(2, 3, 1), plt.imshow(translated_image[:,:,::-1]), plt.title('Translation')
-    <br>plt.subplot(2, 3, 2), plt.imshow(scaled_image[:,:,::-1]), plt.title('Scaling')
-    <br>plt.subplot(2, 3, 3), plt.imshow(rotated_image[:,:,::-1]), plt.title('Rotation')
-    <br>plt.subplot(2, 3, 4), plt.imshow(shrinked_image[:,:,::-1]), plt.title('Shrinking')
-    <br>plt.subplot(2, 3, 5), plt.imshow(zoomed_image[:,:,::-1]), plt.title('Zooming')
-    <br>plt.subplot(2, 3, 6), plt.imshow(resized_image[:,:,::-1]), plt.title('Original Image')
-    <br>plt.show() </p>
+2. Contrast Stretching, Histogram, and Histogram Equalization:
+# Assuming 'resized_image' from the previous code block
+# Convert the image to grayscale
+gray_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
+# Apply contrast stretching
+min_val, max_val, _, _ = cv2.minMaxLoc(gray_image)
+contrast_stretched = cv2.convertScaleAbs(gray_image, alpha=255.0/(max_val-min_val), beta=-
+min_val*255.0/(max_val-min_val))
+# Compute and plot histograms
+plt.figure(figsize=(15, 5))
+plt.subplot(1, 3, 1), plt.imshow(contrast_stretched, cmap='gray'), plt.title('Contrast Stretched Image')
+plt.subplot(1, 3, 2), plt.hist(gray_image.ravel(), bins=256, color='black', alpha=0.7, rwidth=0.8),
+plt.title('Histogram')
+plt.subplot(1, 3, 3), plt.hist(contrast_stretched.ravel(), bins=256, color='black', alpha=0.7, rwidth=0.8),
+plt.title('Stretched Histogram')
+plt.show()
 
 
-<h1>4. Prepare any two images of size 256 × 256 in paint. Save it in JPEG format 256 gray levels. 
+3. Geometric Transformation:
+# Assuming 'resized_image' from the first code block
+# (a) Translation
+translation_matrix = np.float32([[1, 0, 50], [0, 1, 50]]) # Translate by (50, 50)
+translated_image = cv2.warpAffine(resized_image, translation_matrix, (256, 256))
+# (b) Scaling
+scaling_matrix = np.float32([[0.5, 0, 0], [0, 0.5, 0]]) # Scale by 0.5
+scaled_image = cv2.warpAffine(resized_image, scaling_matrix, (256, 256))
+# (c) Rotation
+rotation_matrix = cv2.getRotationMatrix2D((128, 128), 45, 1) # Rotate by 45 degrees
+rotated_image = cv2.warpAffine(resized_image, rotation_matrix, (256, 256))
+# (d) Shrinking
+shrink_matrix = np.float32([[0.8, 0, 0], [0, 0.8, 0]]) # Shrink by 20%
+shrinked_image = cv2.warpAffine(resized_image, shrink_matrix, (256, 256))
+# (e) Zooming
+zoom_matrix = np.float32([[1.2, 0, 0], [0, 1.2, 0]]) # Zoom by 20%
+zoomed_image = cv2.warpAffine(resized_image, zoom_matrix, (256, 256))
+# Display the images
+plt.figure(figsize=(15, 5))
+plt.subplot(2, 3, 1), plt.imshow(translated_image[:,:,::-1]), plt.title('Translation')
+plt.subplot(2, 3, 2), plt.imshow(scaled_image[:,:,::-1]), plt.title('Scaling')
+plt.subplot(2, 3, 3), plt.imshow(rotated_image[:,:,::-1]), plt.title('Rotation')
+plt.subplot(2, 3, 4), plt.imshow(shrinked_image[:,:,::-1]), plt.title('Shrinking')
+plt.subplot(2, 3, 5), plt.imshow(zoomed_image[:,:,::-1]), plt.title('Zooming')
+plt.subplot(2, 3, 6), plt.imshow(resized_image[:,:,::-1]), plt.title('Original Image')
+plt.show()
+
+
+4. Prepare any two images of size 256 × 256 in paint. Save it in JPEG format 256 gray levels.
 Perform logical NOR, NAND operations between two images. Write program and paste your
 results
 To perform logical NOR and NAND operations between two images, you'll first need to create
 and upload two images of size 256x256 with 256 gray levels each. After that, you can proceed
-with the following Python code using Google Colab: </h1>
-<p>import cv2
-    <br>import numpy as np
-    <br>from google.colab import files
-    <br>import matplotlib.pyplot as plt
-    <br># Function to perform logical NOR operation
-    <br>def logical_nor(image1, image2):
-    <br>return cv2.bitwise_not(cv2.bitwise_or(image1, image2))
-<br># Function to perform logical NAND operation
-<br>def logical_nand(image1, image2):
-<br> return cv2.bitwise_not(cv2.bitwise_and(image1, image2))
-<br># Upload the two images
-<br>uploaded = files.upload()
-<br># Read the uploaded images
-<br>image_path1, image_path2 = list(uploaded.keys())
-<br>image1 = cv2.imread(image_path1, cv2.IMREAD_GRAYSCALE)
-<br>image2 = cv2.imread(image_path2, cv2.IMREAD_GRAYSCALE)
-<br># Ensure both images are of size 256x256
-<br>image1 = cv2.resize(image1, (256, 256))
-<br>image2 = cv2.resize(image2, (256, 256))
-<br># Perform logical NOR and NAND operations
-<br>nor_result = logical_nor(image1, image2)
-<br>nand_result = logical_nand(image1, image2)
-<br># Display the results
-<br>plt.figure(figsize=(10, 5))
-<br>plt.subplot(1, 3, 1), plt.imshow(image1, cmap='gray'), plt.title('Image 1')
-<br>plt.subplot(1, 3, 2), plt.imshow(image2, cmap='gray'), plt.title('Image 2')
-<br>plt.subplot(1, 3, 3), plt.imshow(nor_result, cmap='gray'), plt.title('Logical NOR Result')
-<br>plt.show()
-<br>plt.figure(figsize=(10, 5))
-<br>plt.subplot(1, 3, 1), plt.imshow(image1, cmap='gray'), plt.title('Image 1')
-<br>plt.subplot(1, 3, 2), plt.imshow(image2, cmap='gray'), plt.title('Image 2')
-<br>plt.subplot(1, 3, 3), plt.imshow(nand_result, cmap='gray'), plt.title('Logical NAND Result')
-<br>plt.show()
-<br>This code defines two functions (logical_nor and logical_nand) for performing the logical NOR and
-<br>NAND operations, respectively. It then reads and resizes the uploaded images, applies the <br>operations,
-<br>and displays the original images along with the results. Make sure to run this code in a Google Colab
-<br>notebook after uploading the images.</p>
+with the following Python code using Google Colab:
+import cv2
+import numpy as np
+from google.colab import files
+import matplotlib.pyplot as plt
+# Function to perform logical NOR operation
+def logical_nor(image1, image2):
+ return cv2.bitwise_not(cv2.bitwise_or(image1, image2))
+# Function to perform logical NAND operation
+def logical_nand(image1, image2):
+ return cv2.bitwise_not(cv2.bitwise_and(image1, image2))
+# Upload the two images
+uploaded = files.upload()
+# Read the uploaded images
+image_path1, image_path2 = list(uploaded.keys())
+image1 = cv2.imread(image_path1, cv2.IMREAD_GRAYSCALE)
+image2 = cv2.imread(image_path2, cv2.IMREAD_GRAYSCALE)
+# Ensure both images are of size 256x256
+image1 = cv2.resize(image1, (256, 256))
+image2 = cv2.resize(image2, (256, 256))
+# Perform logical NOR and NAND operations
+nor_result = logical_nor(image1, image2)
+nand_result = logical_nand(image1, image2)
+# Display the results
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 3, 1), plt.imshow(image1, cmap='gray'), plt.title('Image 1')
+plt.subplot(1, 3, 2), plt.imshow(image2, cmap='gray'), plt.title('Image 2')
+plt.subplot(1, 3, 3), plt.imshow(nor_result, cmap='gray'), plt.title('Logical NOR Result')
+plt.show()
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 3, 1), plt.imshow(image1, cmap='gray'), plt.title('Image 1')
+plt.subplot(1, 3, 2), plt.imshow(image2, cmap='gray'), plt.title('Image 2')
+plt.subplot(1, 3, 3), plt.imshow(nand_result, cmap='gray'), plt.title('Logical NAND Result')
+plt.show()
+This code defines two functions (logical_nor and logical_nand) for performing the logical NOR and
+NAND operations, respectively. It then reads and resizes the uploaded images, applies the operations,
+and displays the original images along with the results. Make sure to run this code in a Google Colab
+notebook after uploading the images.
 
 
-<h1>5. To Implement smoothing or averaging filter in spatial domain
+5. To Implement smoothing or averaging filter in spatial domain
 To implement a smoothing or averaging filter in the spatial domain using Python in Google
-Colab, you can use the OpenCV library.</h1>
-<p>import cv2
-<br>import numpy as np
-<br>from google.colab import files
-<br>import matplotlib.pyplot as plt
-<br># Function to apply smoothing or averaging filter
-<br>def apply_smoothing(image, kernel_size):
-<br> return cv2.blur(image, (kernel_size, kernel_size))
-<br># Upload the image
-<br>uploaded = files.upload()
-<br># Read the uploaded image
-<br>image_path = list(uploaded.keys())[0]
-<br>image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-<br># Ensure the image is of size 256x256
-<br>image = cv2.resize(image, (256, 256))
-<br># Choose the kernel size for smoothing
-<br>kernel_size = 5 # Adjust the kernel size as needed
-<br># Apply smoothing filter
-<br>smoothed_image = apply_smoothing(image, kernel_size)
-<br># Display the original and smoothed images
-<br>plt.figure(figsize=(10, 5))
-<br>plt.subplot(1, 2, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
-<br>plt.subplot(1, 2, 2), plt.imshow(smoothed_image, cmap='gray'), plt.title('Smoothed Image')
-<br>plt.show() </p>
+Colab, you can use the OpenCV library.
+import cv2
+import numpy as np
+from google.colab import files
+import matplotlib.pyplot as plt
+# Function to apply smoothing or averaging filter
+def apply_smoothing(image, kernel_size):
+ return cv2.blur(image, (kernel_size, kernel_size))
+# Upload the image
+uploaded = files.upload()
+# Read the uploaded image
+image_path = list(uploaded.keys())[0]
+image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+# Ensure the image is of size 256x256
+image = cv2.resize(image, (256, 256))
+# Choose the kernel size for smoothing
+kernel_size = 5 # Adjust the kernel size as needed
+# Apply smoothing filter
+smoothed_image = apply_smoothing(image, kernel_size)
+# Display the original and smoothed images
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
+plt.subplot(1, 2, 2), plt.imshow(smoothed_image, cmap='gray'), plt.title('Smoothed Image')
+plt.show()
 
 
-<h1>6. Program of sharpen image using gradient mask. 
+6. Program of sharpen image using gradient mask.
 To sharpen an image using a gradient mask in Google Colab with Python, you can use the
 OpenCV library. The following code demonstrates how to apply a sharpening filter using the
-Sobel operator for gradient calculation</h1>
-<p>import cv2
-<br>import numpy as np
-<br>from google.colab import files
-<br>import matplotlib.pyplot as plt
-<br># Function to sharpen the image using gradient mask
-<br>def sharpen_image(image):
-<br> # Convert the image to grayscale
-<br> gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-<br> # Calculate gradients using Sobel operators
-<br> gradient_x = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
-<br> gradient_y = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
-<br> # Combine gradients to obtain the gradient magnitude
-<br> gradient_magnitude = np.sqrt(gradient_x**2 + gradient_y**2)
-<br> # Add the gradient magnitude to the original image to sharpen it
-<br> sharpened_image = cv2.addWeighted(image, 1.5, cv2.cvtColor(gradient_magnitude,
-<br>cv2.COLOR_GRAY2BGR), -0.5, 0)
-<br> return sharpened_image
+Sobel operator for gradient calculation
+import cv2
+import numpy as np
+from google.colab import files
+import matplotlib.pyplot as plt
+# Function to sharpen the image using gradient mask
+def sharpen_image(image):
+ # Convert the image to grayscale
+ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+ # Calculate gradients using Sobel operators
+ gradient_x = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+ gradient_y = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+ # Combine gradients to obtain the gradient magnitude
+ gradient_magnitude = np.sqrt(gradient_x**2 + gradient_y**2)
+ # Add the gradient magnitude to the original image to sharpen it
+ sharpened_image = cv2.addWeighted(image, 1.5, cv2.cvtColor(gradient_magnitude,
+cv2.COLOR_GRAY2BGR), -0.5, 0)
+ return sharpened_image
 # Upload the image
-<br>uploaded = files.upload()
-<br># Read the uploaded image
-<br>image_path = list(uploaded.keys())[0]
-<br>image = cv2.imread(image_path)
-<br># Ensure the image is of size 256x256
-<br>image = cv2.resize(image, (256, 256))
-<br># Apply sharpening filter
-<br>sharpened_image = sharpen_image(image)
-<br># Display the original and sharpened images
-<br>plt.figure(figsize=(10, 5))
-<br>plt.subplot(1, 2, 1), plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB)), plt.title('Original <br>Image')
-<br>plt.subplot(1, 2, 2), plt.imshow(cv2.cvtColor(sharpened_image, cv2.COLOR_BGR2RGB)),
-<br>plt.title('Sharpened Image')
-<br>plt.show()
-<br>This code defines a function sharpen_image that calculates the gradients using the Sobel <br>operators,
-combines them to obtain the gradient magnitude, and then adds the gradient magnitude to the <br>original
-<br>image to sharpen it. Upload an image using the provided code, and it will display the <br>original and
-<br>sharpened images. Adjust the parameters as needed for your specific requirements.
-</p>
-
-<h1> Program for DCT/IDCT computation: </h1>
-<p>import cv2
-<br>import numpy as np
-<br>from scipy.fftpack import dct, idct
-<br>from google.colab import files
-<br>import matplotlib.pyplot as plt
-<br># Function to compute DCT of an image
-<br>def compute_dct(image):
-<br> return dct(dct(image, axis=0, norm='ortho'), axis=1, norm='ortho')
-<br># Function to compute IDCT of an image
-<br>def compute_idct(coefficients):
-<br> return idct(idct(coefficients, axis=0, norm='ortho'), axis=1, norm='ortho')
-<br># Upload the image
-<br>uploaded = files.upload()
-<br># Read the uploaded image
-<br>image_path = list(uploaded.keys())[0]
-<br>image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-<br># Ensure the image is of size 256x256
-<br>image = cv2.resize(image, (256, 256))
-<br># Compute DCT of the image
-<br>dct_image = compute_dct(image)
-<br># Compute IDCT of the DCT coefficients
-<br>idct_image = compute_idct(dct_image)
-<br># Display the original and reconstructed images
-<br>plt.figure(figsize=(10, 5))
-<br>plt.subplot(1, 2, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
-<br>plt.subplot(1, 2, 2), plt.imshow(idct_image, cmap='gray'), plt.title('Reconstructed Image')
-<br>plt.show() </p>
-
-
-<h1>8. To add salt and pepper noise and apply image restoration techniques: </h1>
-<p>import cv2
-<br>import numpy as np
-<br>from google.colab import files
-<br>import matplotlib.pyplot as plt
-<br># Function to add salt and pepper noise to an image
-<br>def add_salt_and_pepper_noise(image, salt_prob, pepper_prob):
-<br> noisy_image = np.copy(image)
-<br> total_pixels = image.size
-<br> # Add salt noise
-<br> salt_pixels = int(total_pixels * salt_prob)
-<br> salt_coords = [np.random.randint(0, i - 1, salt_pixels) for i in image.shape]
-<br> noisy_image[salt_coords[0], salt_coords[1]] = 255
-<br> # Add pepper noise
-<br> pepper_pixels = int(total_pixels * pepper_prob)
-<br> pepper_coords = [np.random.randint(0, i - 1, pepper_pixels) for i in image.shape]
-<br> noisy_image[pepper_coords[0], pepper_coords[1]] = 0
-<br> return noisy_image
-<br># Function to apply Wiener filter for image restoration
-<br>def wiener_filter(noisy_image, kernel_size):
-<br> return cv2.wiener(noisy_image, (kernel_size, kernel_size))
-<br># Function to apply median filter for image restoration
-<br>def median_filter(noisy_image, kernel_size):
- return cv2.medianBlur(noisy_image, kernel_size)
-<br># Upload the image
-<br>uploaded = files.upload()
-<br># Read the uploaded image
+uploaded = files.upload()
+# Read the uploaded image
 image_path = list(uploaded.keys())[0]
-<br>image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-<br># Ensure the image is of size 256x256
-<br>image = cv2.resize(image, (256, 256))
-<br># Add salt and pepper noise to the image
-<br>noisy_image = add_salt_and_pepper_noise(image, salt_prob=0.02, pepper_prob=0.02)
-<br># Apply Wiener filter for image restoration
-<br>restored_wiener = wiener_filter(noisy_image, kernel_size=3)
-<br># Apply median filter for image restoration
-<br>restored_median = median_filter(noisy_image, kernel_size=3)
-<br># Display the original, noisy, and restored images
-<br>plt.figure(figsize=(15, 5))
-<br>plt.subplot(1, 3, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
-<br>plt.subplot(1, 3, 2), plt.imshow(noisy_image, cmap='gray'), plt.title('Noisy Image')
-<br>plt.subplot(1, 3, 3), plt.imshow(restored_wiener, cmap='gray'), plt.title('Restored Image <br>(Wiener Filter)')
-<br>plt.show()
-<br>plt.figure(figsize=(15, 5))
-<br>plt.subplot(1, 3, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
-<br>plt.subplot(1, 3, 2), plt.imshow(noisy_image, cmap='gray'), plt.title('Noisy Image')
-<br>plt.subplot(1, 3, 3), plt.imshow(restored_median, cmap='gray'), plt.title('Restored Image <br>(Median
-<br>Filter)')
+image = cv2.imread(image_path)
+# Ensure the image is of size 256x256
+image = cv2.resize(image, (256, 256))
+# Apply sharpening filter
+sharpened_image = sharpen_image(image)
+# Display the original and sharpened images
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1), plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB)), plt.title('Original Image')
+plt.subplot(1, 2, 2), plt.imshow(cv2.cvtColor(sharpened_image, cv2.COLOR_BGR2RGB)),
+plt.title('Sharpened Image')
 plt.show()
-<br>These code snippets cover DCT/IDCT computation, adding salt and pepper noise, and applying <br>image
-<br>restoration techniques using Wiener filter and median filter in Python using Google Colab. Adjust the
-<br>parameters as needed for your specific requirements. </p>
+This code defines a function sharpen_image that calculates the gradients using the Sobel operators,
+combines them to obtain the gradient magnitude, and then adds the gradient magnitude to the original
+image to sharpen it. Upload an image using the provided code, and it will display the original and
+sharpened images. Adjust the parameters as needed for your specific requirements.
 
 
-<h1>9. To add salt and pepper noise in the image and apply image restoration technique
-using Wiener filter and median filter </h1>
-<p># Import necessary libraries
-<br>import numpy as np
-<br>import matplotlib.pyplot as plt
-<br>from scipy.signal import convolve2d
-<br>from skimage import io, color, util, restoration
-<br># Function to add salt and pepper noise to an image
-<br>def salt_and_pepper_noise(image, amount=0.02):
-<br> noisy_image = image.copy()
-<br> num_pixels = int(amount * image.size)
-<br> # Add salt noise
-<br> salt_coords = [np.random.randint(0, i - 1, num_pixels) for i in image.shape]
-<br> noisy_image[salt_coords] = 1
-<br> # Add pepper noise
-<br> pepper_coords = [np.random.randint(0, i - 1, num_pixels) for i in image.shape]
-<br> noisy_image[pepper_coords] = 0
-<br> return noisy_image
-<br># Load an example image
-<br>image_url = "URL_TO_YOUR_IMAGE"
-<br>image = io.imread(image_url)
-<br>gray_image = color.rgb2gray(image)
-<br># Add salt and pepper noise
-<br>noisy_image = salt_and_pepper_noise(gray_image, amount=0.02)
-<br># Apply Wiener filter for image restoration
-<br>restored_wiener = restoration.wiener(noisy_image, kernel_size=3)
-<br># Apply median filter for image restoration
-<br>restored_median = util.img_as_ubyte(color.rgb2gray(restoration.denoise_tv_bregman(
+7. Program for DCT/IDCT computation:
+import cv2
+import numpy as np
+from scipy.fftpack import dct, idct
+from google.colab import files
+import matplotlib.pyplot as plt
+# Function to compute DCT of an image
+def compute_dct(image):
+ return dct(dct(image, axis=0, norm='ortho'), axis=1, norm='ortho')
+# Function to compute IDCT of an image
+def compute_idct(coefficients):
+ return idct(idct(coefficients, axis=0, norm='ortho'), axis=1, norm='ortho')
+# Upload the image
+uploaded = files.upload()
+# Read the uploaded image
+image_path = list(uploaded.keys())[0]
+image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+# Ensure the image is of size 256x256
+image = cv2.resize(image, (256, 256))
+# Compute DCT of the image
+dct_image = compute_dct(image)
+# Compute IDCT of the DCT coefficients
+idct_image = compute_idct(dct_image)
+# Display the original and reconstructed images
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
+plt.subplot(1, 2, 2), plt.imshow(idct_image, cmap='gray'), plt.title('Reconstructed Image')
+plt.show()
+
+
+8. To add salt and pepper noise and apply image restoration techniques:
+import cv2
+import numpy as np
+from google.colab import files
+import matplotlib.pyplot as plt
+# Function to add salt and pepper noise to an image
+def add_salt_and_pepper_noise(image, salt_prob, pepper_prob):
+ noisy_image = np.copy(image)
+ total_pixels = image.size
+ # Add salt noise
+ salt_pixels = int(total_pixels * salt_prob)
+ salt_coords = [np.random.randint(0, i - 1, salt_pixels) for i in image.shape]
+ noisy_image[salt_coords[0], salt_coords[1]] = 255
+ # Add pepper noise
+ pepper_pixels = int(total_pixels * pepper_prob)
+ pepper_coords = [np.random.randint(0, i - 1, pepper_pixels) for i in image.shape]
+ noisy_image[pepper_coords[0], pepper_coords[1]] = 0
+ return noisy_image
+# Function to apply Wiener filter for image restoration
+def wiener_filter(noisy_image, kernel_size):
+ return cv2.wiener(noisy_image, (kernel_size, kernel_size))
+# Function to apply median filter for image restoration
+def median_filter(noisy_image, kernel_size):
+ return cv2.medianBlur(noisy_image, kernel_size)
+# Upload the image
+uploaded = files.upload()
+# Read the uploaded image
+image_path = list(uploaded.keys())[0]
+image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+# Ensure the image is of size 256x256
+image = cv2.resize(image, (256, 256))
+# Add salt and pepper noise to the image
+noisy_image = add_salt_and_pepper_noise(image, salt_prob=0.02, pepper_prob=0.02)
+# Apply Wiener filter for image restoration
+restored_wiener = wiener_filter(noisy_image, kernel_size=3)
+# Apply median filter for image restoration
+restored_median = median_filter(noisy_image, kernel_size=3)
+# Display the original, noisy, and restored images
+plt.figure(figsize=(15, 5))
+plt.subplot(1, 3, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
+plt.subplot(1, 3, 2), plt.imshow(noisy_image, cmap='gray'), plt.title('Noisy Image')
+plt.subplot(1, 3, 3), plt.imshow(restored_wiener, cmap='gray'), plt.title('Restored Image (Wiener Filter)')
+plt.show()
+plt.figure(figsize=(15, 5))
+plt.subplot(1, 3, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image')
+plt.subplot(1, 3, 2), plt.imshow(noisy_image, cmap='gray'), plt.title('Noisy Image')
+plt.subplot(1, 3, 3), plt.imshow(restored_median, cmap='gray'), plt.title('Restored Image (Median
+Filter)')
+plt.show()
+These code snippets cover DCT/IDCT computation, adding salt and pepper noise, and applying image
+restoration techniques using Wiener filter and median filter in Python using Google Colab. Adjust the
+parameters as needed for your specific requirements.
+
+
+9. To add salt and pepper noise in the image and apply image restoration technique
+using Wiener filter and median filter
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import convolve2d
+from skimage import io, color, util, restoration
+# Function to add salt and pepper noise to an image
+def salt_and_pepper_noise(image, amount=0.02):
+ noisy_image = image.copy()
+ num_pixels = int(amount * image.size)
+ # Add salt noise
+ salt_coords = [np.random.randint(0, i - 1, num_pixels) for i in image.shape]
+ noisy_image[salt_coords] = 1
+ # Add pepper noise
+ pepper_coords = [np.random.randint(0, i - 1, num_pixels) for i in image.shape]
+ noisy_image[pepper_coords] = 0
+ return noisy_image
+# Load an example image
+image_url = "URL_TO_YOUR_IMAGE"
+image = io.imread(image_url)
+gray_image = color.rgb2gray(image)
+# Add salt and pepper noise
+noisy_image = salt_and_pepper_noise(gray_image, amount=0.02)
+# Apply Wiener filter for image restoration
+restored_wiener = restoration.wiener(noisy_image, kernel_size=3)
+# Apply median filter for image restoration
+restored_median = util.img_as_ubyte(color.rgb2gray(restoration.denoise_tv_bregman(
  util.img_as_float(image), weight=0.1)))
-<br># Display the original, noisy, and restored images
-<br>plt.figure(figsize=(12, 6))
-<br>plt.subplot(1, 3, 1)
-<br>plt.title("Original Image")
-<br>plt.imshow(gray_image, cmap="gray")
-<br>plt.axis("off")
-<br>plt.subplot(1, 3, 2)
-<br>plt.title("Noisy Image")
-<br>plt.imshow(noisy_image, cmap="gray")
-<br>plt.axis("off")
-<br>plt.subplot(1, 3, 3)
-<br>plt.title("Restored Image (Wiener & Median)")
-<br>plt.imshow(restored_wiener, cmap="gray")
-<br>plt.imshow(restored_median, cmap="gray", alpha=0.5) # Overlay with transparency
-<br>plt.axis("off")
-<br>plt.tight_layout()
-<br>plt.show() </p>
+# Display the original, noisy, and restored images
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 3, 1)
+plt.title("Original Image")
+plt.imshow(gray_image, cmap="gray")
+plt.axis("off")
+plt.subplot(1, 3, 2)
+plt.title("Noisy Image")
+plt.imshow(noisy_image, cmap="gray")
+plt.axis("off")
+plt.subplot(1, 3, 3)
+plt.title("Restored Image (Wiener & Median)")
+plt.imshow(restored_wiener, cmap="gray")
+plt.imshow(restored_median, cmap="gray", alpha=0.5) # Overlay with transparency
+plt.axis("off")
+plt.tight_layout()
+plt.show()
 
 
-<h1>10. Edge Detection using Sobel, Prewitt and Roberts Operators
+10. Edge Detection using Sobel, Prewitt and Roberts Operators
 Python using Google Colab for edge detection using Sobel, Prewitt, and
 Roberts operators. Make sure to replace "URL_TO_YOUR_IMAGE" with the
-actual URL or path to your image. </h1>
-<p>import numpy as np
-<br>import matplotlib.pyplot as plt
-<br>from skimage import io, color, filters
-<br># Load an example image
-<br>image_url = "URL_TO_YOUR_IMAGE"
-<br>image = io.imread(image_url)
-<br>gray_image = color.rgb2gray(image)
-<br># Apply Sobel, Prewitt, and Roberts edge detection operators
-<br>edges_sobel = filters.sobel(gray_image)
-<br>edges_prewitt = filters.prewitt(gray_image)
-<br>edges_roberts = filters.roberts(gray_image)
-<br># Display the original and edges-detected images
-<br>plt.figure(figsize=(12, 6))
-<br>plt.subplot(2, 2, 1)
-<br>plt.title("Original Image")
-<br>plt.imshow(gray_image, cmap="gray")
-<br>plt.axis("off")
-<br>plt.subplot(2, 2, 2)
-<br>plt.title("Sobel Operator")
-<br>plt.imshow(edges_sobel, cmap="gray")
-<br>plt.axis("off")
-<br>plt.subplot(2, 2, 3)
-<br>plt.title("Prewitt Operator")
-<br>plt.imshow(edges_prewitt, cmap="gray")
-<br>plt.axis("off")
-<br>plt.subplot(2, 2, 4)
-<br>plt.title("Roberts Operator")
-<br>plt.imshow(edges_roberts, cmap="gray")
-<br>plt.axis("off")
-<br>plt.tight_layout()
-<br>plt.show() </p>
+actual URL or path to your image.
+import numpy as np
+import matplotlib.pyplot as plt
+from skimage import io, color, filters
+# Load an example image
+image_url = "URL_TO_YOUR_IMAGE"
+image = io.imread(image_url)
+gray_image = color.rgb2gray(image)
+# Apply Sobel, Prewitt, and Roberts edge detection operators
+edges_sobel = filters.sobel(gray_image)
+edges_prewitt = filters.prewitt(gray_image)
+edges_roberts = filters.roberts(gray_image)
+# Display the original and edges-detected images
+plt.figure(figsize=(12, 6))
+plt.subplot(2, 2, 1)
+plt.title("Original Image")
+plt.imshow(gray_image, cmap="gray")
+plt.axis("off")
+plt.subplot(2, 2, 2)
+plt.title("Sobel Operator")
+plt.imshow(edges_sobel, cmap="gray")
+plt.axis("off")
+plt.subplot(2, 2, 3)
+plt.title("Prewitt Operator")
+plt.imshow(edges_prewitt, cmap="gray")
+plt.axis("off")
+plt.subplot(2, 2, 4)
+plt.title("Roberts Operator")
+plt.imshow(edges_roberts, cmap="gray")
+plt.axis("off")
+plt.tight_layout()
+plt.show()
 </body>
 </html>
